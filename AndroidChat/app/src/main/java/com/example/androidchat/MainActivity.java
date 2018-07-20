@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private final int NORMAL_CLOSURE_STATUS = 1000;
 
     private TextView outputTextView;
+    private EditText messageInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         outputTextView = findViewById(R.id.output_text_view);
+        messageInput = findViewById(R.id.message_input);
     }
 
     public void start(View view) {
-        final String message = "Test message";
+        final String message = messageInput.getText().toString();
+        if (message.length() < 1) return;
+
         final String url = "ws://echo.websocket.org";
         output("Sending text: " + message);
 
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         client.newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                webSocket.send("Test message");
+                webSocket.send(message);
                 webSocket.close(NORMAL_CLOSURE_STATUS, null);
             }
 
