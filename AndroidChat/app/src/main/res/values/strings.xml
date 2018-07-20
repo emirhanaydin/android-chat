@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Android Chat</string>
+    <string name="send_message">Send Message</string>
+    <string name="clear">Clear</string>
 </resources>
